@@ -93,7 +93,7 @@ async def hello_world():
     return {"message": "Hello World"}
 
 
-@app.get("/api/orders", response_model=List[OrderResponse])
+@app.get("/orders", response_model=List[OrderResponse])
 async def get_orders(db: Session = Depends(get_db)):
     """获取所有订单"""
     orders = db.query(Order).all()
