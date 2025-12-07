@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import ReactECharts from 'echarts-for-react'
 
-// API 基础 URL，优先使用环境变量，否则使用默认值
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+// API 基础路径
+// 生产环境：使用 VITE_API_URL（完整 URL，如 https://api.example.com）
+// 本地开发：使用 '/api' 以便利用 Vite proxy
+const API_BASE = import.meta.env.VITE_API_URL || '/api'
 
 function App() {
   const [orders, setOrders] = useState([])
@@ -18,7 +20,7 @@ function App() {
     try {
       setLoading(true)
       setError(null)
-      const res = await axios.get(`${API_BASE_URL}/api/orders`)
+      const res = await axios.get(`${API_BASE}/orders`)
       setOrders(res.data || [])
     } catch (err) {
       console.error('获取订单失败:', err)
@@ -31,7 +33,7 @@ function App() {
   const handleCreateOrder = async () => {
     try {
       // 如果后端有 POST 接口，可以这样调用：
-      // await axios.post(`${API_BASE_URL}/api/orders`, { client_name: '新客户', status: '进行中' })
+      // await axios.post(`${API_BASE}/orders`, { client_name: '新客户', status: '进行中' })
       // fetchOrders() // 刷新列表
       console.log('创建新订单')
     } catch (err) {
